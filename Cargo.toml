@@ -1,6 +1,6 @@
 [package]
 name = "r2d2-nats"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["nathan <grimaudathan@gmail.com>"]
 edition = "2018"
 license = "MIT"
@@ -17,5 +17,5 @@ name = "test"
 path = "tests/test.rs"
 
 [dependencies]
-r2d2 = "0.8.2"
+r2d2 = "0.8.9"
 nats = "0.8.0"
