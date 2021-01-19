@@ -8,7 +8,7 @@ use std::thread;
 
 #[test]
 fn test_basic() {
-    let manager = NatsConnectionManager::new("nats://user:password@127.0.0.1".to_owned()).unwrap();
+    let manager = NatsConnectionManager::new("nats://user:password@127.0.0.1".to_owned(), String::from("test123"), String::from("123123")).unwrap();
     let pool = r2d2::Pool::builder().max_size(2).build(manager).unwrap();
 
     let (s1, r1) = mpsc::channel();
@@ -38,14 +38,14 @@ fn test_basic() {
 
 #[test]
 fn test_is_valid() {
-    let manager = NatsConnectionManager::new("nats://user:password@127.0.0.1".to_owned()).unwrap();
+    let manager = NatsConnectionManager::new("nats://user:password@127.0.0.1".to_owned(), String::from("test123"), String::from("123123")).unwrap();
     let pool = r2d2::Pool::builder().max_size(1).build(manager).unwrap();
     pool.get().unwrap();
 }
 
 #[test]
 fn test_publish() {
-    let manager = NatsConnectionManager::new("nats://user:password@127.0.0.1".to_owned()).unwrap();
+    let manager = NatsConnectionManager::new("nats://user:password@127.0.0.1".to_owned(), String::from("test123"), String::from("123123")).unwrap();
     let pool = r2d2::Pool::builder().build(manager).unwrap();
     let mut handles = vec![];
     for _i in 0..10i32 {

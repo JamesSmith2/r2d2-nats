@@ -6,12 +6,17 @@ use std::io::Error;
 #[derive(Debug)]
 pub struct NatsConnectionManager {
     params: String,
+    path: String,
 }
 
 impl NatsConnectionManager {
-    pub fn new(connection_string: String) -> Result<NatsConnectionManager, Error> {
+    pub fn new(
+        connection_string: String,
+        path: String
+    ) -> Result<NatsConnectionManager, Error> {
         Ok(NatsConnectionManager {
             params: connection_string,
+            path,
         })
     }
 }
@@ -21,7 +26,10 @@ impl r2d2::ManageConnection for NatsConnectionManager {
     type Error = Error;
 
     fn connect(&self) -> Result<nats::Connection, Error> {
-        nats::connect(&self.params.to_owned())
+        nats::Options::with_credentials(&self.path.to_owned())
+            .connect(&self.params.to_owned())
+
+        //nats::connect(&self.params.to_owned())
         /*match Client::new(self.params.to_owned()) {
             Ok(client) => Ok(client),
             Err(err) => Err(Error::Other(err)),
