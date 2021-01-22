@@ -29,9 +29,11 @@ impl r2d2::ManageConnection for NatsConnectionManager {
     type Error = Error;
 
     fn connect(&self) -> Result<nats::Connection, Error> {
-        let kp = nkeys::KeyPair::from_seed(&self.seed).unwrap();
+        let nkey = "UAMMBNV2EYR65NYZZ7IAK5SIR5ODNTTERJOBOF4KJLMWI45YOXOSWULM";
+        let seed = "SUANQDPB2RUOE4ETUA26CNX7FUKE5ZZKFCQIIW63OX225F2CO7UEXTM7ZY";
+        let kp = nkeys::KeyPair::from_seed(seed).unwrap();
 
-        nats::Options::with_nkey(&self.nkey, move |nonce| kp.sign(nonce).unwrap())
+        nats::Options::with_nkey(nkey, move |nonce| kp.sign(nonce).unwrap())
             .connect(&self.params.to_owned())
         //nats::Options::with_credentials(&self.path.to_owned()).connect(&self.params.to_owned())
 
