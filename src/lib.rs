@@ -6,20 +6,20 @@ use std::io::Error;
 #[derive(Debug)]
 pub struct NatsConnectionManager {
     params: String,
-    nkey: String,
-    seed: String,
+    username: String,
+    password: String,
 }
 
 impl NatsConnectionManager {
     pub fn new(
         connection_string: String,
-        nkey: String,
-        seed: String,
+        username: String,
+        password: String,
     ) -> Result<NatsConnectionManager, Error> {
         Ok(NatsConnectionManager {
             params: connection_string,
-            nkey,
-            seed,
+            username,
+            password,
         })
     }
 }
@@ -29,10 +29,12 @@ impl r2d2::ManageConnection for NatsConnectionManager {
     type Error = Error;
 
     fn connect(&self) -> Result<nats::Connection, Error> {
-        let kp = nkeys::KeyPair::from_seed(&self.seed.to_owned()).unwrap();
+        nats::Options::with_user_pass(&self.username, &self.password)
+            .connect(&self.params.to_owned())
+        /*let kp = nkeys::KeyPair::from_seed(&self.seed.to_owned()).unwrap();
 
         nats::Options::with_nkey(&self.nkey.to_owned(), move |nonce| kp.sign(nonce).unwrap())
-            .connect(&self.params.to_owned())
+            .connect(&self.params.to_owned())*/
         //nats::Options::with_credentials(&self.path.to_owned()).connect(&self.params.to_owned())
 
         //nats::connect(&self.params.to_owned())
