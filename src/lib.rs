@@ -14,15 +14,15 @@ pub struct NatsConnectionManager {
 impl NatsConnectionManager {
     pub fn new(
         connection_string: String,
-        cert: String,
         username: String,
         password: String,
+        cert: String,
     ) -> Result<NatsConnectionManager, Error> {
         Ok(NatsConnectionManager {
             params: connection_string,
-            cert,
             username,
             password,
+            cert,
         })
     }
 }
