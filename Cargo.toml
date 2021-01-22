@@ -18,5 +18,5 @@ path = "tests/test.rs"
 
 [dependencies]
 r2d2 = "0.8.9"
-nats = "0.8.0"
+nats = "0.9.1"
 nkeys = "0.0.12"
