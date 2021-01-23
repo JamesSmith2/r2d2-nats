@@ -7,22 +7,19 @@ use std::io::Error;
 pub struct NatsConnectionManager {
     params: String,
     username: String,
-    password: String,
-    cert: String,
+    password: String
 }
 
 impl NatsConnectionManager {
     pub fn new(
         connection_string: String,
         username: String,
-        password: String,
-        cert: String,
+        password: String
     ) -> Result<NatsConnectionManager, Error> {
         Ok(NatsConnectionManager {
             params: connection_string,
             username,
-            password,
-            cert,
+            password
         })
     }
 }
@@ -33,7 +30,6 @@ impl r2d2::ManageConnection for NatsConnectionManager {
 
     fn connect(&self) -> Result<nats::Connection, Error> {
         nats::Options::with_user_pass(&self.username, &self.password)
-            .add_root_certificate(&self.cert.to_owned())
             .connect(&self.params.to_owned())
         /*let kp = nkeys::KeyPair::from_seed(&self.seed.to_owned()).unwrap();
 
